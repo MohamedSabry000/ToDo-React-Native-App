@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Button, TextInput, I18nManager, Modal} from 'react-native';
+import { StyleSheet, View, Button, TextInput, I18nManager, Modal, Image} from 'react-native';
 
 export default function GoalInput({onAddGoal, visible, onCancel}) {
   const [goal, setGoal] = useState('');
@@ -13,18 +13,20 @@ export default function GoalInput({onAddGoal, visible, onCancel}) {
   return (
     <Modal visible={visible} animationType="slide">
       <View style={styles.inputContainer}>
+        <Image source={require('./assets/images/goal.png')} style={styles.inputImage} />
         <TextInput
           style={styles.textInput}
           placeholder="Add Your Goal!"
+          placeholderTextColor="#CCC"
           value={goal}
           onChangeText={(text) => setGoal(text)}
         />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
-            <Button title="Add Goal" onPress={addGoalHandler} />
+            <Button title="Cancel" onPress={onCancel} color="#f31282" />
           </View>
           <View style={styles.button}>
-            <Button title="Cancel" onPress={onCancel} />
+            <Button title="Add Goal" onPress={addGoalHandler} color="#b180f0" />
           </View>
         </View>
       </View>
@@ -37,11 +39,12 @@ const styles = StyleSheet.create({
     flexDirection: I18nManager.isRTL ? "row-reverse" : "column",
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
-    marginHorizontal: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     flex: 1,
+    backgroundColor: '#311b6b',
   },
   textInput: {
     borderWidth: 1,
@@ -49,6 +52,16 @@ const styles = StyleSheet.create({
     width: '100%',
     marginRight: 8,
     padding: 8,
+    color: '#fff',
+    fontSize: 18,
+    borderRadius: 5,
+    backgroundColor: '#5e0acc',
+  },
+  inputImage: {
+    width: "100%",
+    height: "30%",
+    marginRight: 8,
+    marginBottom: 20
   },
   buttonContainer: {
     flexDirection: I18nManager.isRTL ? "row-reverse" : "row",

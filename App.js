@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { StyleSheet, View, FlatList, Button } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import GoalInput from './GoalInput';
 import GoalItem from './GoalItem';
 
@@ -16,26 +17,30 @@ export default function App() {
   }
 
   return (
-    <View style={styles.appContainer}>
-      {
-        !openModal && <Button
-          title="Add Goal"
-          onPress={() => setOpenModal(true)}
-        />
-      }
-      <GoalInput onAddGoal={addGoalHandler} visible={openModal} onCancel={() => setOpenModal(false)} />
-      <View style={styles.goalsContainer}>
-        <FlatList
-          data={goals}
-          renderItem={({item}) =>
-            <GoalItem item={item} onDelete={removeGoalHandler} />
-          }
-          alwaysBounceHorizontal={false}
-          keyExtractor={(item, index) => item.id}
-        >
-        </FlatList>
+    <>
+      <StatusBar style="light" />
+      <View style={styles.appContainer}>
+        {
+          !openModal && <Button
+            title="Add Goal"
+            color={'#b180f0'}
+            onPress={() => setOpenModal(true)}
+          />
+        }
+        <GoalInput onAddGoal={addGoalHandler} visible={openModal} onCancel={() => setOpenModal(false)} />
+        <View style={styles.goalsContainer}>
+          <FlatList
+            data={goals}
+            renderItem={({item}) =>
+              <GoalItem item={item} onDelete={removeGoalHandler} />
+            }
+            alwaysBounceHorizontal={false}
+            keyExtractor={(item, index) => item.id}
+          >
+          </FlatList>
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
