@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Button, TextInput, I18nManager, Modal} from 'react-native';
 
-export default function GoalInput({onAddGoal, visible}) {
+export default function GoalInput({onAddGoal, visible, onCancel}) {
   const [goal, setGoal] = useState('');
 
   const addGoalHandler = () => {
     onAddGoal(goal);
     setGoal('');
+    onCancel();
   }
 
   return (
@@ -18,7 +19,14 @@ export default function GoalInput({onAddGoal, visible}) {
           value={goal}
           onChangeText={(text) => setGoal(text)}
         />
-        <Button title="Add Goal" onPress={addGoalHandler} />
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Button title="Add Goal" onPress={addGoalHandler} />
+          </View>
+          <View style={styles.button}>
+            <Button title="Cancel" onPress={onCancel} />
+          </View>
+        </View>
       </View>
     </Modal>
   );
@@ -26,20 +34,29 @@ export default function GoalInput({onAddGoal, visible}) {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
-    justifyContent: 'space-between',
+    flexDirection: I18nManager.isRTL ? "row-reverse" : "column",
+    justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
+    marginHorizontal: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     flex: 1,
   },
   textInput: {
-    flex: 1,
     borderWidth: 1,
     borderColor: '#CCC',
-    width: '70%',
+    width: '100%',
     marginRight: 8,
     padding: 8,
   },
+  buttonContainer: {
+    flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  button: {
+    width: 100,
+    marginHorizontal: 8,
+  }
 });

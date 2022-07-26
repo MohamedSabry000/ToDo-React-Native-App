@@ -23,7 +23,7 @@ export default function App() {
           onPress={() => setOpenModal(true)}
         />
       }
-      <GoalInput onAddGoal={addGoalHandler} visible={openModal} />
+      <GoalInput onAddGoal={addGoalHandler} visible={openModal} onCancel={() => setOpenModal(false)} />
       <View style={styles.goalsContainer}>
         <FlatList
           data={goals}
