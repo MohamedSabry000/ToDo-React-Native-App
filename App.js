@@ -1,35 +1,27 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, I18nManager, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
+import GoalInput from './GoalInput';
 import GoalItem from './GoalItem';
 
 export default function App() {
-  const [goal, setGoal] = useState('');
   const [goals, setGoals] = useState([]);
 
-  const goalInputHandler = (enteredText) => {
-    setGoal(enteredText);
+  const addGoalHandler = (goal) => {
+    setGoals(currentGoals => [...currentGoals, {label: goal, id: Math.random().toString()}]);
   }
 
-  const addGoalHandler = () => {
-    setGoals(currentGoals => [...currentGoals, {label: goal, id: Math.random().toString()}]);
+  const removeGoalHandler = (goalId) => {
+    setGoals(currentGoals => currentGoals.filter(goal => goal.id !== goalId));
   }
 
   return (
     <View style={styles.appContainer}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Add Your Goal!"
-          value={goal}
-          onChangeText={goalInputHandler}
-        />
-        <Button title="Add Goal" onPress={addGoalHandler} />
-      </View>
+      <GoalInput onAddGoal={addGoalHandler} />
       <View style={styles.goalsContainer}>
         <FlatList
           data={goals}
           renderItem={({item}) =>
-            <GoalItem text={item.label}/>
+            <GoalItem item={item} onDelete={removeGoalHandler} />
           }
           alwaysBounceHorizontal={false}
           keyExtractor={(item, index) => item.id}
@@ -46,27 +38,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flex: 1,
   },
-  inputContainer: {
-    flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    flex: 1,
-  },
-  textInput: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#CCC',
-    width: '70%',
-    marginRight: 8,
-    padding: 8,
-  },
   goalsContainer: {
     flex: 5,
     flexDirection: "column",
-    // justifyContent: 'space-between',
     paddingBottom: 20,
   }
 });
